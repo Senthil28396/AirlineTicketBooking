@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.airline.ticketbooking.model.Passanger;
+import com.airline.ticketbooking.model.PassangerDto;
 import com.airline.ticketbooking.service.PassangerService;
 
 @RestController
@@ -32,9 +33,9 @@ public class PassangerController {
 	PasswordEncoder encoder;
 	
 	@PostMapping
-	public String addPassanger(@RequestBody Passanger passanger) {
+	public String addPassanger(@RequestBody PassangerDto passanger) {
 		passanger.setPassword(encoder.encode(passanger.getPassword()));
-		passangerService.createPassanger(passanger);
+		passangerService.addPassanger(passanger);
 		return "Added Passanger Details successfully";
 	}
 	

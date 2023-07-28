@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.airline.ticketbooking.exceptions.PassangerNotFoundException;
 import com.airline.ticketbooking.model.Passanger;
+import com.airline.ticketbooking.model.PassangerDto;
 import com.airline.ticketbooking.model.Role;
 import com.airline.ticketbooking.repository.PassangerRepository;
 import com.airline.ticketbooking.repository.RoleRepository;
@@ -33,14 +34,10 @@ public class PassangerService {
 	private RoleRepository roleRepository;
 	
 	
-	  public void createPassanger(Passanger passanger) {
-//		  Set<Role> passangers=passanger.getRoles();
-//		  for(Role p:passangers) {
-//			  p.setRole("ROLE_USER");
-//			  roleRepository.save(p);
-//		  }
-	  passangerRepository.save(passanger); 
-	  }
+	/*
+	 * public void createPassanger(Passanger passanger) {
+	 * passangerRepository.save(passanger); }
+	 */
 	 
 	public Passanger getPassanger(long id)
 	{
@@ -154,39 +151,51 @@ public class PassangerService {
 		return diff.toMinutes() >= EXPIRE_TOKEN_AFTER_MINUTES;
 	}
 	
-	/*
-	 * public PassangerDto addPassanger(PassangerDto pasaangerDto) {
-	 * pasaangerDto.setPassword(passwordencoder.encode(pasaangerDto.getPassword()));
-	 * Passanger passanger = new Passanger(); mapDtoToEntity(pasaangerDto,
-	 * passanger); Passanger u = passangerRepository.save(passanger); return
-	 * mapEntityToDto(u); }
-	 * 
-	 * private void mapDtoToEntity(PassangerDto passangerDto, Passanger passanger) {
-	 * passanger.setName(passangerDto.getName());
-	 * passanger.setGender(passangerDto.getGender());
-	 * passanger.setPhoneNumber(passangerDto.getPhoneNumber());
-	 * passanger.setPassword(passangerDto.getPassword());
-	 * passanger.setEmail(passangerDto.getEmail());
-	 * passanger.setAge(passangerDto.getAge());
-	 * passanger.setPassportNumber(passangerDto.getPassportNumber());
-	 * passanger.setNationality(passangerDto.getNationality()); if (null ==
-	 * passanger.getRoles()) { passanger.setRoles(new HashSet<>()); }
-	 * passangerDto.getRoles().stream().forEach(role -> { Role roles =
-	 * roleRepository.findByRole(role); if (null == roles) { roles = new Role();
-	 * roles.setPassanger(new HashSet<>()); } roles.setRole(role);
-	 * passanger.addRoles(roles); }); }
-	 * 
-	 * private PassangerDto mapEntityToDto(Passanger passanger) { PassangerDto
-	 * responseDto = new PassangerDto(); responseDto.setId(passanger.getId());
-	 * responseDto.setName(passanger.getName());
-	 * responseDto.setGender(passanger.getGender());
-	 * responseDto.setPhoneNumber(passanger.getPhoneNumber());
-	 * responseDto.setPassword(passanger.getPassword());
-	 * responseDto.setEmail(passanger.getEmail());
-	 * responseDto.setAge(passanger.getAge());
-	 * responseDto.setPassportNumber(passanger.getPassportNumber());
-	 * responseDto.setNationality(passanger.getNationality());
-	 * responseDto.setRoles(passanger.getRoles().stream().map(Role::getRole).collect
-	 * (Collectors.toSet())); return responseDto; }
-	 */
+	
+	public PassangerDto addPassanger(PassangerDto pasaangerDto) {
+		pasaangerDto.setPassword(passwordencoder.encode(pasaangerDto.getPassword()));
+		Passanger passanger = new Passanger();
+		mapDtoToEntity(pasaangerDto, passanger);
+		Passanger u = passangerRepository.save(passanger);
+		return mapEntityToDto(u);
+	}
+
+	private void mapDtoToEntity(PassangerDto passangerDto, Passanger passanger) {
+		passanger.setName(passangerDto.getName());
+		passanger.setGender(passangerDto.getGender());
+		passanger.setPhoneNumber(passangerDto.getPhoneNumber());
+		passanger.setPassword(passangerDto.getPassword());
+		passanger.setEmail(passangerDto.getEmail());
+		passanger.setAge(passangerDto.getAge());
+		passanger.setPassportNumber(passangerDto.getPassportNumber());
+		passanger.setNationality(passangerDto.getNationality());
+		if (null == passanger.getRoles()) {
+			passanger.setRoles(new HashSet<>());
+		}
+		passangerDto.getRoles().stream().forEach(role -> {
+			Role roles = roleRepository.findByRole(role);
+			if (null == roles) {
+				roles = new Role();
+				roles.setPassanger(new HashSet<>());
+			}
+			roles.setRole(role);
+			passanger.addRoles(roles);
+		});
+	}
+
+	private PassangerDto mapEntityToDto(Passanger passanger) {
+		PassangerDto responseDto = new PassangerDto();
+		responseDto.setId(passanger.getId());
+		responseDto.setName(passanger.getName());
+		responseDto.setGender(passanger.getGender());
+		responseDto.setPhoneNumber(passanger.getPhoneNumber());
+		responseDto.setPassword(passanger.getPassword());
+		responseDto.setEmail(passanger.getEmail());
+		responseDto.setAge(passanger.getAge());
+		responseDto.setPassportNumber(passanger.getPassportNumber());
+		responseDto.setNationality(passanger.getNationality());
+		responseDto.setRoles(passanger.getRoles().stream().map(Role::getRole).collect(Collectors.toSet()));
+		return responseDto;
+	}
+	 
 }
