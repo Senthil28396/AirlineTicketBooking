@@ -5,8 +5,10 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-public class PassangerDto {
+import jakarta.persistence.GeneratedValue;
 
+public class PassangerDto {
+	@GeneratedValue
 	private Long id;
 	private String name;
 	private String gender;

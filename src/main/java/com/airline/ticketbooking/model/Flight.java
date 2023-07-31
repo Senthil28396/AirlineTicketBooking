@@ -1,12 +1,16 @@
 package com.airline.ticketbooking.model;
 
+import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
@@ -14,23 +18,26 @@ import jakarta.persistence.OneToMany;
 @Entity
 public class Flight {
 	@Id
+	@GeneratedValue
+	private int id;
 	@Column(nullable = false,unique = true)
-	private long flightNumber;
+	private String flightNumber;
 	private String flightName;
 	private String flightType;// international or domestic
 	private String source;
 	private String destination;
-	private Date depatureDate;
-	private Date arrivalDate;
-	private LocalDateTime depatureTime;
-	private LocalDateTime arrivalTime;
-	private int duration;
+	private LocalDate depatureDate;
+	private LocalDate arrivalDate;
+	private LocalTime depatureTime;
+	private LocalTime arrivalTime;
+	private String duration;
 	private int availableSeats;
 
-	public Flight(long flightNumber, String flightName, String flightType, String source, String destination,
-			Date depatureDate, Date arrivalDate, int duration, LocalDateTime depatureTime, LocalDateTime arrivalTime,
+	public Flight(int id,String flightNumber, String flightName, String flightType, String source, String destination,
+			LocalDate depatureDate, LocalDate arrivalDate, String duration, LocalTime depatureTime, LocalTime arrivalTime,
 			int availableSeats) {
 		super();
+		this.id=id;
 		this.flightNumber = flightNumber;
 		this.flightName = flightName;
 		this.flightType = flightType;
@@ -48,11 +55,19 @@ public class Flight {
 		super();
 	}
 
-	public long getFlightNumber() {
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getFlightNumber() {
 		return flightNumber;
 	}
 
-	public void setFlightNumber(long flightNumber) {
+	public void setFlightNumber(String flightNumber) {
 		this.flightNumber = flightNumber;
 	}
 
@@ -88,43 +103,43 @@ public class Flight {
 		this.destination = destination;
 	}
 
-	public Date getDepatureDate() {
+	public LocalDate getDepatureDate() {
 		return depatureDate;
 	}
 
-	public void setDepatureDate(Date depatureDate) {
+	public void setDepatureDate(LocalDate depatureDate) {
 		this.depatureDate = depatureDate;
 	}
 
-	public Date getArrivalDate() {
+	public LocalDate getArrivalDate() {
 		return arrivalDate;
 	}
 
-	public void setArrivalDate(Date arrivalDate) {
+	public void setArrivalDate(LocalDate arrivalDate) {
 		this.arrivalDate = arrivalDate;
 	}
 
-	public int getDuration() {
+	public String getDuration() {
 		return duration;
 	}
 
-	public void setDuration(int duration) {
-		this.duration = duration;
+	public void setDuration(String difference) {
+		this.duration = difference;
 	}
 
-	public LocalDateTime getDepatureTime() {
+	public LocalTime getDepatureTime() {
 		return depatureTime;
 	}
 
-	public void setDepatureTime(LocalDateTime depatureTime) {
+	public void setDepatureTime(LocalTime depatureTime) {
 		this.depatureTime = depatureTime;
 	}
 
-	public LocalDateTime getArrivalTime() {
+	public LocalTime getArrivalTime() {
 		return arrivalTime;
 	}
 
-	public void setArrivalTime(LocalDateTime arrivalTime) {
+	public void setArrivalTime(LocalTime arrivalTime) {
 		this.arrivalTime = arrivalTime;
 	}
 

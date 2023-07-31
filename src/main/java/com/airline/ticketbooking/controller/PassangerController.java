@@ -52,14 +52,14 @@ public class PassangerController {
 		return passangerService.getAllPassangers();
 	}
 	@PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    //@PreAuthorize("hasAuthority('ROLE_USER')")
 	public String updatePassanger(@RequestBody Passanger passanger,@PathVariable long id)
 	{
 		passangerService.updatePassanger(passanger,id);
 		return "updated successfully";
 	}
 	@DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    //@PreAuthorize("hasAuthority('ROLE_USER')")
 	public String deletePassanger(@PathVariable long id)
 	{
 		passangerService.deletePassanger(id);
