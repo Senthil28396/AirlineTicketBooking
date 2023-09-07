@@ -19,8 +19,8 @@ public class PassangerUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Passanger> userInfo = repository.findByName(username);
-        return userInfo.map(PassangerUserDetails::new)
+        Optional<Passanger> passanger = repository.findByName(username);
+        return passanger.map(PassangerUserDetails::new)
                 .orElseThrow(() -> new UsernameNotFoundException("user not found " + username));
 
     }

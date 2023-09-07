@@ -4,6 +4,8 @@ package com.airline.ticketbooking.model;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Entity;
@@ -15,19 +17,18 @@ import jakarta.persistence.ManyToMany;
 public class Role {
 
 	@Id
-
 	@GeneratedValue
 	private int id;
 	private String role;
 
+	@JsonIgnore
 	@ManyToMany(mappedBy = "roles")
 	private Set<Passanger> passanger;
 
-	public Role(int id, String role, Set<Passanger> passanger) {
+	public Role(int id, String role) {
 		super();
 		this.id = id;
 		this.role = role;
-		this.passanger = passanger;
 	}
 
 	public Role() {

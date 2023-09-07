@@ -1,7 +1,9 @@
 package com.airline.ticketbooking.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -19,6 +21,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Passanger {
@@ -36,16 +39,20 @@ public class Passanger {
 	@Column(unique = true)
 	private String passportNumber;
 	private String nationality;
+	@JsonIgnore
 	private String token;
+	
+	@JsonIgnore
 	@Column(columnDefinition = "TIMESTAMP")
 	private LocalDateTime tokenCreationDate;
 	
-	
+	//@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JoinTable(name = "passanger_role", joinColumns = @JoinColumn(name = "passanger_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles;
 
-
+	@OneToMany(mappedBy = "passanger")
+	private List<Reservation> reservation;
 	
 	public Passanger(Long id, String name, String gender, String phoneNumber, String password, String email, int age,
 			String passportNumber, String nationality) {
@@ -159,6 +166,14 @@ public class Passanger {
 		this.roles = roles;
 	}
 
+	public List<Reservation> getReservation() {
+		return reservation;
+	}
+
+	public void setReservation(List<Reservation> reservation) {
+		this.reservation = reservation;
+	}
+
 	public void addRoles(Role role) {
 		this.roles.add(role);
 		role.getPassanger().add(this);
@@ -174,5 +189,11 @@ public class Passanger {
 			removeRole(role);
 		}
 	}
+	
+    public void addReservation(Reservation review) {
+        this.reservation.add(review);
+        review.setPassanger(this);
+    }
+
 
 }

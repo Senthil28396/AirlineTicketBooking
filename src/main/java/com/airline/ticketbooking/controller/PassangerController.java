@@ -32,9 +32,8 @@ public class PassangerController {
 	@Autowired
 	PasswordEncoder encoder;
 	
-	@PostMapping
+	@PostMapping("/add")
 	public String addPassanger(@RequestBody PassangerDto passanger) {
-		passanger.setPassword(encoder.encode(passanger.getPassword()));
 		passangerService.addPassanger(passanger);
 		return "Added Passanger Details successfully";
 	}
@@ -45,14 +44,13 @@ public class PassangerController {
 	{
 		return passangerService.getPassanger(id);
 	}
-	
-	@GetMapping    
-	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+	@GetMapping("/get")    
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	public List<Passanger> getAllPassangers(){
 		return passangerService.getAllPassangers();
 	}
 	@PutMapping("/{id}")
-    //@PreAuthorize("hasAuthority('ROLE_USER')")
+    @PreAuthorize("hasAuthority('ROLE_USER')")
 	public String updatePassanger(@RequestBody Passanger passanger,@PathVariable long id)
 	{
 		passangerService.updatePassanger(passanger,id);

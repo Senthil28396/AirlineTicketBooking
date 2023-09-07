@@ -9,15 +9,12 @@ import org.springframework.stereotype.Repository;
 import com.airline.ticketbooking.model.Passanger;
 @Repository
 public interface PassangerRepository extends JpaRepository<Passanger, Long> {
-	public List<Passanger> findAll();
 	
     List<Passanger> findByEmail(String email);
 
-    Optional<Passanger> findById(long id);
-    
     Passanger getByEmail(String email);
 
     Passanger findByToken(String token);
 
-	public Optional<Passanger> findByName(String username);
+	Optional<Passanger> findByName(String username);
 }

@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -20,9 +21,11 @@ import com.airline.ticketbooking.model.Role;
 import com.airline.ticketbooking.repository.PassangerRepository;
 import com.airline.ticketbooking.repository.RoleRepository;
 
+
 @Service
 public class PassangerService {
 	
+
 	private static final long EXPIRE_TOKEN_AFTER_MINUTES = 30;
 	@Autowired
 	private PassangerRepository passangerRepository;
@@ -33,12 +36,7 @@ public class PassangerService {
 	@Autowired
 	private RoleRepository roleRepository;
 	
-	
-	/*
-	 * public void createPassanger(Passanger passanger) {
-	 * passangerRepository.save(passanger); }
-	 */
-	 
+    
 	public Passanger getPassanger(long id)
 	{
 		Optional<Passanger> passangers=passangerRepository.findById(id);
@@ -60,6 +58,7 @@ public class PassangerService {
 			throw new PassangerNotFoundException("no passanger records found");
 		}
 	}
+	
 	public void updatePassanger(Passanger passanger,long id) {
 		Optional<Passanger> passangr=passangerRepository.findById(id);
 		if(passangr.isPresent()) {

@@ -22,16 +22,40 @@ public class SecurityConfig {
     public UserDetailsService userDetailsService() {
         return new PassangerUserDetailsService();
     }
+    
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//    			http.authorizeHttpRequests()
+//        		.requestMatchers("/passangers/add","/category","/category/**","/category/get").permitAll()
+//        		.and()
+//                .authorizeHttpRequests()
+//                .requestMatchers("/passangers","/passangers/**","/passangers/get","/forgot-password","/reset-password","/flights","/flights/**")
+//                .authenticated();
+//    			http.formLogin();
+//    			http.csrf().disable();
+//    			return http.build();
+//    }
+//   
+	@Bean
+	SecurityFilterChain defaultSecurityFilter(HttpSecurity http) throws Exception {
+		http.authorizeHttpRequests()
+		.requestMatchers("/category/get").authenticated()
+		.requestMatchers("/category").permitAll()
+		.requestMatchers("/category/**").hasAnyRole("ADMIN")
+		.requestMatchers("/passangers/add").permitAll()
+		.requestMatchers("/passangers","/passangers/**",
+				"/passangers/get","/forgot-password","/reset-password",
+				"/flights","/flights/**").authenticated()
+		.requestMatchers("/reservations/**").authenticated()
+		.requestMatchers("/reservations/passanger/**").authenticated()
+		.requestMatchers("/reservations").permitAll();
+		http.formLogin();
+		http.httpBasic();
+		http.csrf().disable();
+		return http.build();
+	} 
 
-
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf().disable()
-                .authorizeHttpRequests()
-                .requestMatchers("/passangers","/passangers/**","/forgot-password","/reset-password","/flights","/flights/**").permitAll()
-                .and().formLogin().and().build();
-    }
-
+    
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
